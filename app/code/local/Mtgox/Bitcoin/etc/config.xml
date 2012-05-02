@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * Bitcoin module configuration
+ *
+ * @author Michał Adamiak<madamiak@tenwa.pl>
+ * @version 1.0.0
+ * @access private
+ * @copyright Tenwa
+ * @package Mtgox
+ * @module Bitcoin
+ */
+ -->
+<config>
+    <modules>
+        <Mtgox_Bitcoin>
+            <version>1.0.0</version>
+        </Mtgox_Bitcoin>
+    </modules>
+    <global>
+        <blocks>
+            <bitcoin>
+                <class>Mtgox_Bitcoin_Block</class>
+            </bitcoin>
+        </blocks>
+        <helpers>
+            <bitcoin>
+                <class>Mtgox_Bitcoin_Helper</class>
+            </bitcoin>
+        </helpers>
+        <models>
+            <bitcoin>
+                <class>Mtgox_Bitcoin_Model</class>
+                <resourceModel>bitcoin_mysql4</resourceModel>
+            </bitcoin>
+            <bitcoin_mysql4>
+                <class>Mtgox_Bitcoin_Model_Mysql4</class>
+                <entities>
+                    <bitcoin>
+                        <table>bitcoin</table>
+                    </bitcoin>
+                </entities>
+            </bitcoin_mysql4>
+        </models>
+        <resources>
+            <bitcoin_setup>
+                <setup>
+                    <module>Mtgox_Bitcoin</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </bitcoin_setup>
+            <bitcoin_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </bitcoin_write>
+            <bitcoin_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </bitcoin_read>
+        </resources>
+    </global>
+    <frontend>
+        <routers>
+            <bitcoin>
+                <use>standard</use>
+                <args>
+                    <module>Mtgox_Bitcoin</module>
+                    <frontName>bitcoin</frontName>
+                </args>
+            </bitcoin>
+        </routers>
+        <layout>
+            <updates>
+                <bitcoin>
+                    <file>bitcoin.xml</file>
+                </bitcoin>
+            </updates>
+        </layout>
+    </frontend>
+    <default>
+        <payment>
+            <bitcoin>
+                <model>bitcoin/bitcoin</model>
+                <title>Bitcoin</title>
+                <payment_action>Sale</payment_action>
+                <line_items_enabled>1</line_items_enabled>
+                <bitcoin_id />
+                <bitcoin_key />
+                <bitcoin_secret />
+            </bitcoin>
+        </payment>
+    </default>
+</config>

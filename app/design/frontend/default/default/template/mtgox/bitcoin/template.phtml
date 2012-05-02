@@ -1,0 +1,32 @@
+<?php 
+$session = Mage::getSingleton("core/session",  array(
+    "name" => "frontend"
+));
+?>
+<div class="cart">
+    <div class="page-title title-buttons">
+        <h1>Shopping Cart</h1>
+    </div>
+    <ul class="messages">
+        <li class="error-msg">
+            <ul>
+                <li>
+                    <span>
+                        <?php echo $this->__('Payment using Bitcoin Failed. You cart is empty.') ?>
+                    </span>
+                </li>
+                <li>
+                    <span>
+                        <?php
+                        echo $this->__(
+                            'If you don\'t know why you see this information,
+                             contact with system administrators. You order number is: '
+                        );
+                        echo $session->getData("order_number");
+                        ?>
+                    </span>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>

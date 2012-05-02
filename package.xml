@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package>
+    <name>Mtgox_Bitcoin</name>
+    <version>1.0.0</version>
+    <stability>beta</stability>
+    <license>Mtgox</license>
+    <channel>magento-community</channel>
+    <extends/>
+    <summary>Bitcoin payment module</summary>
+    <description>Based on Mtgox API, Bitcoin payment module</description>
+    <notes>Beta version</notes>
+    <authors><author><name>Micha&#x142; Adamiak</name><user>chajr</user><email>madamiak@tenwa.pl</email></author></authors>
+    <date>2012-04-27</date>
+    <time>13:39:42</time>
+    <contents><target name="magelocal"><dir><dir name="modules"><file name="Mtgox_Bitcoin.xml" hash=""/></dir><dir name="Mtgox"><dir name="Bitcoin"><dir name="Helper"><file name="Data.php" hash="abb72eeea027ed8b68ed81b23a59fc6a"/></dir><dir name="Model"><file name="Bitcoin.php" hash="f59ee9e6c4407ec94889b36edc69f906"/></dir><dir name="controllers"><file name="PaymentController.php" hash="217de4d093d5ad2c3f6f836e970747a4"/></dir><dir name="etc"><file name="config.xml" hash="62212fb63e911e90d9562fd5198fe008"/><file name="system.xml" hash="9d1cd12f11caf912fdde0de9da0cc8f5"/></dir></dir></dir></dir></target><target name="magedesign"><dir><dir name="frontend"><dir name="default"><dir name="default"><dir name="template"><dir name="mtgox"><dir name="bitcoin"><file name="template.phtml" hash="9ca3d08e5e40a7a4db9b15251312cfde"/></dir></dir></dir><dir name="layout"><file name="bitcoin.xml" hash="8f4c1b47e1992bf1d9442fc9ff1863c8"/></dir></dir></dir></dir></dir></target></contents>
+    <compatible/>
+    <dependencies><required><php><min>5.2.0</min><max>6.0.0</max></php></required></dependencies>
+</package>

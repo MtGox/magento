@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Bitcoin template setup for failure page
+ *
+ * @author Michał Adamiak<madamiak@tenwa.pl>
+ * @version 1.0
+ * @access private
+ * @copyright Tenwa
+ * @package Mtgox
+ * @module Bitcoin
+ */
+-->
+<layout version="0.1.0">
+    <bitcoin_payment_fail>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/1column.phtml</template>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="core/template" name="bitcoin_payment_fail" template="mtgox/bitcoin/template.phtml"></block>
+        </reference>
+    </bitcoin_payment_fail>
+</layout>

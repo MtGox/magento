@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @package     Mtgox_Bitcoin
+ * @copyright   Copyright (c) 2012 Mtgox
+ */
+-->
+<config>
+    <modules>
+        <Mtgox_Bitcoin>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Mtgox_Bitcoin>
+    </modules>
+</config>
