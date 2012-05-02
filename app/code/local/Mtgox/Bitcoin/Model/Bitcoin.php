@@ -67,13 +67,14 @@ class Mtgox_Bitcoin_Model_Bitcoin extends Mage_Payment_Model_Method_Abstract
         $order = Mage::getModel('sales/order')->loadByIncrementId($orderIncrementId);
         $referenceNumber = $order->getIncrementId();
         $paymentAmount = $order->getBaseGrandTotal();
+        $currencyCode = $order->getBaseCurrencyCode();
         $returnSuccess = Mage::getUrl('checkout/onepage/success');
         $returnFailure = Mage::getUrl('checkout/cart');
         $returnFailure = Mage::getUrl('bitcoin/payment/fail?id=' . $referenceNumber);
         $ipnUrl = Mage::getUrl('bitcoin/payment/notify');
         $requestData = array(
             'amount'            => $paymentAmount,
-            'currency'          => 'BTC',
+            'currency'          => $currencyCode,
             'description'       => $description,
             'data'              => $orderIncrementId,
             'return_success'    => $returnSuccess,
