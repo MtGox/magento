@@ -3,8 +3,8 @@
 /**
  * Bitcoin template setup for failure page
  *
- * @author Michał Adamiak<madamiak@tenwa.pl>
- * @version 1.0
+ * @author Michał Adamiak <madamiak@tenwa.pl>
+ * @version 1.0.1
  * @access private
  * @copyright Tenwa
  * @package Mtgox
