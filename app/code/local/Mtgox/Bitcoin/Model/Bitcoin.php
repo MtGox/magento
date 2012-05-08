@@ -3,7 +3,7 @@
  * Bitcoin model
  *
  * @author Michał Adamiak <madamiak@tenwa.pl>
- * @version 1.0.0
+ * @version 1.0.1
  * @access private
  * @copyright Mtgox
  * @package Mtgox
@@ -16,6 +16,8 @@ class Mtgox_Bitcoin_Model_Bitcoin extends Mage_Payment_Model_Method_Abstract
     protected $_canUseCheckout         = TRUE;
     protected $_canUseInternal         = FALSE;
     protected $_canUseForMultishipping = FALSE;
+
+    const ORDER_CREATE = '1/generic/private/merchant/order/create';
 
     /**
      * Config instance
@@ -58,31 +60,54 @@ class Mtgox_Bitcoin_Model_Bitcoin extends Mage_Payment_Model_Method_Abstract
      */
     public function getBitcoinCheckoutFormFields()
     {
-    	$bitcoinKey = Mage::getStoreConfig( 'payment/bitcoin/bitcoin_key' );
-    	$bitcoinSecret = Mage::getStoreConfig( 'payment/bitcoin/bitcoin_secret' );
-        $description = Mage::getStoreConfig( 'payment/bitcoin/bitcoin_description' );
-    	$bitcoinPath = '1/generic/private/merchant/order/create';
-        $checkout = Mage::getSingleton('checkout/session');
+        $bitcoinKey    = Mage::getStoreConfig('payment/bitcoin/bitcoin_key');
+        $bitcoinSecret = Mage::getStoreConfig('payment/bitcoin/bitcoin_secret');
+        $description   = Mage::getStoreConfig('payment/bitcoin/bitcoin_description');
+
+        $checkout         = Mage::getSingleton('checkout/session');
         $orderIncrementId = $checkout->getLastRealOrderId();
-        $order = Mage::getModel('sales/order')->loadByIncrementId($orderIncrementId);
+        $order            = Mage::getModel('sales/order')->loadByIncrementId($orderIncrementId);
+
         $referenceNumber = $order->getIncrementId();
-        $paymentAmount = $order->getBaseGrandTotal();
-        $currencyCode = $order->getBaseCurrencyCode();
+        $paymentAmount   = $order->getBaseGrandTotal();
+        $currencyCode    = $order->getBaseCurrencyCode();
+
         $returnSuccess = Mage::getUrl('checkout/onepage/success');
         $returnFailure = Mage::getUrl('checkout/cart');
         $returnFailure = Mage::getUrl('bitcoin/payment/fail?id=' . $referenceNumber);
-        $ipnUrl = Mage::getUrl('bitcoin/payment/notify');
+
+        $ipnUrl      = Mage::getUrl('bitcoin/payment/notify');
         $requestData = array(
-            'amount'            => $paymentAmount,
-            'currency'          => $currencyCode,
-            'description'       => $description,
-            'data'              => $orderIncrementId,
-            'return_success'    => $returnSuccess,
-            'return_failure'    => $returnFailure,
-            'ipn'               => $ipnUrl
+            'amount'         => $paymentAmount,
+            'currency'       => $currencyCode,
+            'description'    => $description,
+            'data'           => $orderIncrementId,
+            'return_success' => $returnSuccess,
+            'return_failure' => $returnFailure,
+            'ipn'            => $ipnUrl
         );
+
+        // autosell: Automatically sell the bitcoins
+        $orderAutoSell = !!Mage::getStoreConfig('payment/bitcoin/order_autosell');
+        if ($orderAutoSell) {
+            $requestData['autosell'] = 1;
+        }
+
+        // email: Send an email to the marchant when a payment is done
+        $orderEmail = !!Mage::getStoreConfig('payment/bitcoin/order_email');
+        if ($orderEmail) {
+            $requestData['email'] = 1;
+        }
+
+        // instant_only: Only allow payment through a mtgox account
+        $orderInstantOnly = !!Mage::getStoreConfig('payment/bitcoin/order_instant_only');
+        if ($orderInstantOnly) {
+            $requestData['instant_only'] = 1;
+        }
+
         $responseData = $this->
-            mtgoxQuery($bitcoinPath, $bitcoinKey, $bitcoinSecret, $requestData);
+            mtgoxQuery(self::ORDER_CREATE, $bitcoinKey, $bitcoinSecret, $requestData);
+
         return $responseData;
     }
 
@@ -98,41 +123,41 @@ class Mtgox_Bitcoin_Model_Bitcoin extends Mage_Payment_Model_Method_Abstract
      */
     public function mtgoxQuery($path, $key, $secret, array $req = array())
     {
-		$mt = explode(' ', microtime());
-		$req['nonce'] = $mt[1] . substr($mt[0], 2, 6);
-		$postData = http_build_query($req, '', '&');
-		$headers = array(
-			'Rest-Key: ' . $key,
-			'Rest-Sign: ' . base64_encode(
+        $mt = explode(' ', microtime());
+        $req['nonce'] = $mt[1] . substr($mt[0], 2, 6);
+        $postData = http_build_query($req, '', '&');
+        $headers = array(
+            'Rest-Key: ' . $key,
+            'Rest-Sign: ' . base64_encode(
                 hash_hmac('sha512', $postData, base64_decode($secret), TRUE)
              ),
-		);
-		static $ch = NULL;
-		if (is_null($ch)) {
-			$ch = curl_init();
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-			curl_setopt(
+        );
+        static $ch = NULL;
+        if (is_null($ch)) {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+            curl_setopt(
                 $ch, CURLOPT_USERAGENT,
                 'Mozilla/4.0 (compatible; MtGox PHP client; ' . php_uname('s') . '; PHP/' . phpversion() . ')'
             );
-		}
-		curl_setopt($ch, CURLOPT_URL, 'https://mtgox.com/api/' . $path);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        }
+        curl_setopt($ch, CURLOPT_URL, 'https://mtgox.com/api/' . $path);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
         $res = curl_exec($ch);
-		if ($res === FALSE) {
+        if ($res === FALSE) {
             throw new Exception('Could not get reply: ' . curl_error($ch));
         }
-		$dec = json_decode($res, TRUE);
-		if (!$dec) {
+        $dec = json_decode($res, TRUE);
+        if (!$dec) {
             throw new Exception('
                 Invalid data received,
                 please make sure connection is working and requested API exists
             ');
         }
-		return $dec;
-	}
+        return $dec;
+    }
 
     /**
      * Instantiate state and set it to state object
@@ -154,7 +179,7 @@ class Mtgox_Bitcoin_Model_Bitcoin extends Mage_Payment_Model_Method_Abstract
      */
     public function isAvailable($quote)
     {
-        return TRUE;
+        return Mage::getStoreConfig('payment/bitcoin/active');
     }
 
     /**
@@ -163,9 +188,9 @@ class Mtgox_Bitcoin_Model_Bitcoin extends Mage_Payment_Model_Method_Abstract
      */
     public function getOrder()
     {
-		if (!$this->_order) {
-			$this->_order = $this->getInfoInstance()->getOrder();
-		}
-		return $this->_order;
+        if (!$this->_order) {
+            $this->_order = $this->getInfoInstance()->getOrder();
+        }
+        return $this->_order;
     }
 }

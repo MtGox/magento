@@ -3,7 +3,7 @@
  * Bitcoin helper
  *
  * @author Michał Adamiak <madamiak@tenwa.pl>
- * @version 1.0.0
+ * @version 1.0.1
  * @access private
  * @copyright Mtgox
  * @package Mtgox

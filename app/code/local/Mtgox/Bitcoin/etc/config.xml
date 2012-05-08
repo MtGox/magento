@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
-<!-- 
+<!--
 /**
  * Bitcoin module configuration
  *
- * @author Michał Adamiak<madamiak@tenwa.pl>
- * @version 1.0.0
+ * @author Michał Adamiak <madamiak@tenwa.pl>
+ * @version 1.0.1
  * @access private
  * @copyright Tenwa
  * @package Mtgox
@@ -14,7 +14,7 @@
 <config>
     <modules>
         <Mtgox_Bitcoin>
-            <version>1.0.0</version>
+            <version>1.0.1</version>
         </Mtgox_Bitcoin>
     </modules>
     <global>
@@ -86,11 +86,16 @@
             <bitcoin>
                 <model>bitcoin/bitcoin</model>
                 <title>Bitcoin</title>
-                <payment_action>Sale</payment_action>
-                <line_items_enabled>1</line_items_enabled>
+
+                <active>1</active>
+
                 <bitcoin_id />
                 <bitcoin_key />
                 <bitcoin_secret />
+
+                <order_autosell>0</order_autosell>
+                <order_email>0</order_email>
+                <order_instant_only>0</order_instant_only>
             </bitcoin>
         </payment>
     </default>
