@@ -3,7 +3,7 @@
  * Bitcoin model
  *
  * @author Michał Adamiak <madamiak@tenwa.pl>
- * @version 1.0.0
+ * @version 1.1.0
  * @access private
  * @copyright Mtgox
  * @package Mtgox
@@ -79,8 +79,13 @@ class Mtgox_Bitcoin_Model_Bitcoin extends Mage_Payment_Model_Method_Abstract
             'data'              => $orderIncrementId,
             'return_success'    => $returnSuccess,
             'return_failure'    => $returnFailure,
-            'ipn'               => $ipnUrl
+            'ipn'               => $ipnUrl,
+            'autosell'          => 0
         );
+        $autoSell = Mage::getStoreConfig( 'payment/bitcoin/bitcoin_autosale' );
+        if ($autoSell) {
+            $requestData['autosell'] = 1;
+        }
         $responseData = $this->
             mtgoxQuery($bitcoinPath, $bitcoinKey, $bitcoinSecret, $requestData);
         return $responseData;
