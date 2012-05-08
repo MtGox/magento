@@ -9,7 +9,7 @@
    <description>Based on Mtgox API, Bitcoin payment module</description>
    <license>Mtgox</license>
    <license_uri/>
-   <version>1.0.0</version>
+   <version>1.0.1</version>
    <stability>beta</stability>
    <notes>Beta version</notes>
    <authors>
