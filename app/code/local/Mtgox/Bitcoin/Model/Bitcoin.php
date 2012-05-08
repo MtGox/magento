@@ -87,19 +87,19 @@ class Mtgox_Bitcoin_Model_Bitcoin extends Mage_Payment_Model_Method_Abstract
             'ipn'            => $ipnUrl
         );
 
-        // autosell: Automatically sell the bitcoins
+        // autosell: Automatically sell received bitcoins
         $orderAutoSell = !!Mage::getStoreConfig('payment/bitcoin/order_autosell');
         if ($orderAutoSell) {
             $requestData['autosell'] = 1;
         }
 
-        // email: Send an email to the marchant when a payment is done
+        // email: Receive an email on completed transaction
         $orderEmail = !!Mage::getStoreConfig('payment/bitcoin/order_email');
         if ($orderEmail) {
             $requestData['email'] = 1;
         }
 
-        // instant_only: Only allow payment through a mtgox account
+        // instant_only: Only allow transactions that will settle instantly
         $orderInstantOnly = !!Mage::getStoreConfig('payment/bitcoin/order_instant_only');
         if ($orderInstantOnly) {
             $requestData['instant_only'] = 1;
