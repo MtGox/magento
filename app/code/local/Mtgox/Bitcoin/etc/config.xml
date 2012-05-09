@@ -93,6 +93,7 @@
                 <bitcoin_key />
                 <bitcoin_secret />
 
+                <order_status>pending</order_status>
                 <order_autosell>0</order_autosell>
                 <order_email>0</order_email>
                 <order_instant_only>0</order_instant_only>
