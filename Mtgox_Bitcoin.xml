@@ -1,5 +1,5 @@
 <_>
-   <form_key>s2lg8wESVuzqcu1C</form_key>
+   <form_key>rFkYja7vScMe8NGF</form_key>
    <name>MtGox_Bitcoin</name>
    <channel>community</channel>
    <version_ids>
@@ -14,18 +14,15 @@
    <notes>Release note</notes>
    <authors>
       <name>
-         <name>Jonathan Gautheron</name>
-         <name>Michał Adamiak</name>
-         <name>Mark Karpeles</name>
+         <name>Tenwa</name>
+         <name>MtGox</name>
       </name>
       <user>
          <user>jgautheron</user>
-         <user>madamiak</user>
-         <user>mark</user>
+         <user>mtgox</user>
       </user>
       <email>
-         <email>jgautheron@tenwa.pl</email>
-         <email>madamiak@tenwa.pl</email>
+         <email>magento@tenwa.pl</email>
          <email>mark@tibanne.com</email>
       </email>
    </authors>
@@ -46,7 +43,7 @@
             <max/>
          </max>
          <files>
-            <files>        </files>
+            <files>          </files>
          </files>
       </package>
       <extension>
