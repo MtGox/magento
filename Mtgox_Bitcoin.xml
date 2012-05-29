@@ -1,26 +1,32 @@
 <_>
-   <form_key>b4nAEx9gA3zUIR3h</form_key>
-   <name>Mtgox_Bitcoin</name>
-   <channel>magento-community</channel>
+   <form_key>s2lg8wESVuzqcu1C</form_key>
+   <name>MtGox_Bitcoin</name>
+   <channel>community</channel>
    <version_ids>
       <version_ids>2</version_ids>
    </version_ids>
-   <summary>Bitcoin payment module</summary>
-   <description>Based on Mtgox API, Bitcoin payment module</description>
-   <license>Mtgox</license>
+   <summary>Extension Summary</summary>
+   <description>Extension Description</description>
+   <license>LGPL</license>
    <license_uri/>
    <version>1.0.1</version>
-   <stability>beta</stability>
-   <notes>Beta version</notes>
+   <stability>stable</stability>
+   <notes>Release note</notes>
    <authors>
       <name>
+         <name>Jonathan Gautheron</name>
          <name>Michał Adamiak</name>
+         <name>Mark Karpeles</name>
       </name>
       <user>
-         <user>chajr</user>
+         <user>jgautheron</user>
+         <user>madamiak</user>
+         <user>mark</user>
       </user>
       <email>
+         <email>jgautheron@tenwa.pl</email>
          <email>madamiak@tenwa.pl</email>
+         <email>mark@tibanne.com</email>
       </email>
    </authors>
    <depends_php_min>5.2.0</depends_php_min>
@@ -40,7 +46,7 @@
             <max/>
          </max>
          <files>
-            <files> </files>
+            <files>        </files>
          </files>
       </package>
       <extension>
@@ -59,22 +65,22 @@
       <target>
          <target>magelocal</target>
          <target>magelocal</target>
-         <target>magelocal</target>
          <target>magedesign</target>
          <target>magedesign</target>
+         <target>mageetc</target>
       </target>
       <path>
          <path/>
-         <path>/modules/Mtgox_Bitcoin.xml</path>
-         <path>/Mtgox/Bitcoin</path>
-         <path>/frontend/default/default/template/mtgox/bitcoin/template.phtml</path>
-         <path>/frontend/default/default/layout/bitcoin.xml</path>
+         <path>Mtgox/Bitcoin</path>
+         <path>frontend/base/default/layout/bitcoin.xml</path>
+         <path>frontend/base/default/template/mtgox</path>
+         <path>modules/Mtgox_Bitcoin.xml</path>
       </path>
       <type>
          <type>file</type>
-         <type>file</type>
          <type>dir</type>
          <type>file</type>
+         <type>dir</type>
          <type>file</type>
       </type>
       <include>
