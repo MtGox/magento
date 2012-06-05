@@ -1,26 +1,29 @@
 <_>
-   <form_key>b4nAEx9gA3zUIR3h</form_key>
+   <form_key>xfsYASMaJ5T4fYUY</form_key>
    <name>Mtgox_Bitcoin</name>
-   <channel>magento-community</channel>
+   <channel>community</channel>
    <version_ids>
       <version_ids>2</version_ids>
    </version_ids>
-   <summary>Bitcoin payment module</summary>
-   <description>Based on Mtgox API, Bitcoin payment module</description>
-   <license>Mtgox</license>
-   <license_uri/>
+   <summary>Extension Summary</summary>
+   <description>Extension Description</description>
+   <license>LGPL</license>
+   <license_uri>http://www.gnu.org/licenses/lgpl.html</license_uri>
    <version>1.0.1</version>
-   <stability>beta</stability>
-   <notes>Beta version</notes>
+   <stability>stable</stability>
+   <notes>Release note</notes>
    <authors>
       <name>
-         <name>Michał Adamiak</name>
+         <name>Tenwa</name>
+         <name>MtGox</name>
       </name>
       <user>
-         <user>chajr</user>
+         <user>jgautheron</user>
+         <user>mtgox</user>
       </user>
       <email>
-         <email>madamiak@tenwa.pl</email>
+         <email>magento@tenwa.pl</email>
+         <email>mark@tibanne.com</email>
       </email>
    </authors>
    <depends_php_min>5.2.0</depends_php_min>
@@ -29,18 +32,23 @@
       <package>
          <name>
             <name/>
+            <name>Mage_Core_Modules</name>
          </name>
          <channel>
             <channel/>
+            <channel>community</channel>
          </channel>
          <min>
             <min/>
+            <min>1.5.0.0</min>
          </min>
          <max>
             <max/>
+            <max>1.8.0.0</max>
          </max>
          <files>
-            <files> </files>
+            <files>               </files>
+            <files>               </files>
          </files>
       </package>
       <extension>
@@ -57,28 +65,24 @@
    </depends>
    <contents>
       <target>
-         <target>magelocal</target>
-         <target>magelocal</target>
-         <target>magelocal</target>
          <target>magedesign</target>
          <target>magedesign</target>
+         <target>mageetc</target>
+         <target>magecommunity</target>
       </target>
       <path>
-         <path/>
-         <path>/modules/Mtgox_Bitcoin.xml</path>
-         <path>/Mtgox/Bitcoin</path>
-         <path>/frontend/default/default/template/mtgox/bitcoin/template.phtml</path>
-         <path>/frontend/default/default/layout/bitcoin.xml</path>
+         <path>frontend/base/default/layout/bitcoin.xml</path>
+         <path>frontend/base/default/template/mtgox</path>
+         <path>modules/Mtgox_Bitcoin.xml</path>
+         <path>Mtgox/Bitcoin</path>
       </path>
       <type>
          <type>file</type>
-         <type>file</type>
          <type>dir</type>
          <type>file</type>
-         <type>file</type>
+         <type>dir</type>
       </type>
       <include>
-         <include/>
          <include/>
          <include/>
          <include/>
@@ -89,7 +93,10 @@
          <ignore/>
          <ignore/>
          <ignore/>
-         <ignore/>
       </ignore>
    </contents>
+   <page>1</page>
+   <limit>200</limit>
+   <folder/>
+   <package/>
 </_>
