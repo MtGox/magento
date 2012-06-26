@@ -9,7 +9,7 @@
     <modules>
         <Mtgox_Bitcoin>
             <active>true</active>
-            <codePool>local</codePool>
+            <codePool>community</codePool>
         </Mtgox_Bitcoin>
     </modules>
 </config>
