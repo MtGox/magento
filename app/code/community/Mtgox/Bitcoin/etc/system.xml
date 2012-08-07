@@ -4,7 +4,7 @@
  * Bitcoin admin site module configuration
  *
  * @author Michał Adamiak <madamiak@tenwa.pl>
- * @version 1.0.1
+ * @version 1.0.4
  * @access private
  * @copyright Tenwa
  * @package Mtgox
@@ -15,8 +15,8 @@
     <sections>
         <payment>
             <groups>
-                <bitcoin translate="label" module="bitcoin">
-                    <label>Bitcoin</label>
+                <mtgox translate="label" module="mtgoxbitcoin">
+                    <label>MtGox Bitcoin</label>
                     <sort_order>670</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
@@ -40,38 +40,32 @@
                             <show_in_store>0</show_in_store>
                         </title>
 
-                        <bitcoin_id translate="label">
-                            <label>Merchant ID</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>30</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
-                        </bitcoin_id>
-                        <bitcoin_key translate="label">
+                        <key translate="label">
                             <label>API key</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>40</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                        </bitcoin_key>
-                        <bitcoin_secret translate="label">
+                            <backend_model>mtgoxbitcoin/key</backend_model>
+                        </key>
+                        <secret translate="label">
                             <label>API secret key</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>50</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                        </bitcoin_secret>
-                        <bitcoin_description translate="label">
+                            <backend_model>mtgoxbitcoin/secret</backend_model>
+                        </secret>
+                        <description translate="label">
                             <label>Bitcoin Payment Description</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                        </bitcoin_description>
+                        </description>
 
                         <order_status translate="label">
                             <label>New order status</label>
@@ -82,7 +76,6 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </order_status>
-
                         <order_autosell translate="label">
                             <label>Automatically sell received bitcoins</label>
                             <frontend_type>select</frontend_type>
@@ -92,7 +85,6 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </order_autosell>
-
                         <order_email translate="label">
                             <label>Receive an email on completed transaction</label>
                             <frontend_type>select</frontend_type>
@@ -102,7 +94,6 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </order_email>
-
                         <order_instant_only translate="label">
                             <label>Only allow transactions that will settle instantly</label>
                             <frontend_type>select</frontend_type>
@@ -113,7 +104,7 @@
                             <show_in_store>0</show_in_store>
                         </order_instant_only>
                     </fields>
-                </bitcoin>
+                </mtgox>
             </groups>
         </payment>
     </sections>

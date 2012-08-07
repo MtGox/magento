@@ -4,7 +4,7 @@
  * Bitcoin module configuration
  *
  * @author Michał Adamiak <madamiak@tenwa.pl>
- * @version 1.0.1
+ * @version 1.0.4
  * @access private
  * @copyright Tenwa
  * @package Mtgox
@@ -14,90 +14,90 @@
 <config>
     <modules>
         <Mtgox_Bitcoin>
-            <version>1.0.1</version>
+            <version>1.0.4</version>
         </Mtgox_Bitcoin>
     </modules>
     <global>
         <blocks>
-            <bitcoin>
+            <mtgoxbitcoin>
                 <class>Mtgox_Bitcoin_Block</class>
-            </bitcoin>
+            </mtgoxbitcoin>
         </blocks>
         <helpers>
-            <bitcoin>
+            <mtgoxbitcoin>
                 <class>Mtgox_Bitcoin_Helper</class>
-            </bitcoin>
+            </mtgoxbitcoin>
         </helpers>
         <models>
-            <bitcoin>
+            <mtgoxbitcoin>
                 <class>Mtgox_Bitcoin_Model</class>
                 <resourceModel>bitcoin_mysql4</resourceModel>
-            </bitcoin>
-            <bitcoin_mysql4>
+            </mtgoxbitcoin>
+            <mtgoxbitcoin_mysql4>
                 <class>Mtgox_Bitcoin_Model_Mysql4</class>
                 <entities>
-                    <bitcoin>
-                        <table>bitcoin</table>
-                    </bitcoin>
+                    <mtgoxbitcoin>
+                        <table>mtgox_bitcoin</table>
+                    </mtgoxbitcoin>
                 </entities>
-            </bitcoin_mysql4>
+            </mtgoxbitcoin_mysql4>
         </models>
         <resources>
-            <bitcoin_setup>
+            <mtgoxbitcoin_setup>
                 <setup>
                     <module>Mtgox_Bitcoin</module>
                 </setup>
                 <connection>
                     <use>core_setup</use>
                 </connection>
-            </bitcoin_setup>
-            <bitcoin_write>
+            </mtgoxbitcoin_setup>
+            <mtgoxbitcoin_write>
                 <connection>
                     <use>core_write</use>
                 </connection>
-            </bitcoin_write>
-            <bitcoin_read>
+            </mtgoxbitcoin_write>
+            <mtgoxbitcoin_read>
                 <connection>
                     <use>core_read</use>
                 </connection>
-            </bitcoin_read>
+            </mtgoxbitcoin_read>
         </resources>
     </global>
     <frontend>
         <routers>
-            <bitcoin>
+            <mtgoxbitcoin>
                 <use>standard</use>
                 <args>
                     <module>Mtgox_Bitcoin</module>
-                    <frontName>bitcoin</frontName>
+                    <frontName>mtgoxbitcoin</frontName>
                 </args>
-            </bitcoin>
+            </mtgoxbitcoin>
         </routers>
         <layout>
             <updates>
-                <bitcoin>
-                    <file>bitcoin.xml</file>
-                </bitcoin>
+                <mtgoxbitcoin>
+                    <file>mtgoxbitcoin.xml</file>
+                </mtgoxbitcoin>
             </updates>
         </layout>
     </frontend>
     <default>
         <payment>
-            <bitcoin>
-                <model>bitcoin/bitcoin</model>
-                <title>Bitcoin</title>
+            <mtgox>
+                <model>mtgoxbitcoin/bitcoin</model>
+                <title>MtGox Bitcoin</title>
 
-                <active>1</active>
+                <active>0</active>
 
-                <bitcoin_id />
-                <bitcoin_key />
-                <bitcoin_secret />
+                <merchant_id />
+                <key />
+                <secret />
 
                 <order_status>pending</order_status>
                 <order_autosell>0</order_autosell>
                 <order_email>0</order_email>
                 <order_instant_only>0</order_instant_only>
-            </bitcoin>
+            </mtgox>
         </payment>
     </default>
 </config>

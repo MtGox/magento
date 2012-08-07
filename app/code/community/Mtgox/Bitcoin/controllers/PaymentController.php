@@ -3,7 +3,7 @@
  * Bitcoin action controller
  *
  * @author Michał Adamiak <madamiak@tenwa.pl>
- * @version 1.0.1
+ * @version 1.0.4
  * @access private
  * @copyright Mtgox
  * @package Mtgox
@@ -16,11 +16,11 @@ class Mtgox_Bitcoin_PaymentController extends Mage_Core_Controller_Front_Action
      */
     public function redirectAction()
     {
-        $bitcoin      = Mage::getModel('bitcoin/bitcoin');
-        $responseData = $bitcoin->getBitcoinCheckoutFormFields();
+        $model        = Mage::getModel('mtgoxbitcoin/bitcoin');
+        $responseData = $model->getBitcoinCheckoutFormFields();
 
         $form = new Varien_Data_Form();
-        $form->setAction( $responseData['return']['payment_url'] )
+        $form->setAction($responseData['return']['payment_url'])
             ->setId('mtgox_bitcoin_checkout')
             ->setName('mtgox_bitcoin_checkout')
             ->setMethod('POST')
@@ -40,8 +40,8 @@ class Mtgox_Bitcoin_PaymentController extends Mage_Core_Controller_Front_Action
      */
     public function notifyAction()
     {
-        $bitcoinKey    = Mage::getStoreConfig('payment/bitcoin/bitcoin_key');
-        $bitcoinSecret = Mage::getStoreConfig('payment/bitcoin/bitcoin_secret');
+        $bitcoinKey    = Mage::getStoreConfig('payment/mtgox/bitcoin_key');
+        $bitcoinSecret = Mage::getStoreConfig('payment/mtgox/bitcoin_secret');
         $rawPostData   = file_get_contents("php://input");
 
         $good_sign = hash_hmac(
@@ -66,7 +66,7 @@ class Mtgox_Bitcoin_PaymentController extends Mage_Core_Controller_Front_Action
                     $order->save();
                     break;
                 case 'cancelled':
-                    $order->registerCancellation('Payment canceled', TRUE)->save();
+                    $order->registerCancellation('Payment cancelled', TRUE)->save();
                     break;
                 default:
                     $order->registerCancellation('Payment failed', TRUE)->save();
