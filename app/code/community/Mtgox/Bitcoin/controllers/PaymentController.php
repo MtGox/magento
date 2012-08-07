@@ -32,7 +32,7 @@ class Mtgox_Bitcoin_PaymentController extends Mage_Core_Controller_Front_Action
         $html.= '<script type="text/javascript">document.getElementById("mtgox_bitcoin_checkout").submit();</script>';
         $html.= '</body></html>';
 
-        echo $html;
+        $this->getResponse()->setBody($html);
     }
 
     /**
