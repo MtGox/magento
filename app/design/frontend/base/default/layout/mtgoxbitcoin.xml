@@ -4,7 +4,7 @@
  * Bitcoin template setup for failure page
  *
  * @author Michał Adamiak <madamiak@tenwa.pl>
- * @version 1.0.1
+ * @version 1.0.5
  * @access private
  * @copyright Tenwa
  * @package Mtgox
@@ -12,14 +12,14 @@
  */
 -->
 <layout version="0.1.0">
-    <bitcoin_payment_fail>
+    <mtgoxbitcoin_payment_fail>
         <reference name="root">
             <action method="setTemplate">
                 <template>page/1column.phtml</template>
             </action>
         </reference>
         <reference name="content">
-            <block type="core/template" name="bitcoin_payment_fail" template="mtgox/bitcoin/template.phtml"></block>
+            <block type="core/template" name="mtgoxbitcoin_payment_fail" template="mtgox/bitcoin/template.phtml"></block>
         </reference>
-    </bitcoin_payment_fail>
+    </mtgoxbitcoin_payment_fail>
 </layout>
