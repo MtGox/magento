@@ -3,7 +3,7 @@
  * Bitcoin action controller
  *
  * @author Michał Adamiak <madamiak@tenwa.pl>
- * @version 1.0.1
+ * @version 1.0.5
  * @access private
  * @copyright Mtgox
  * @package Mtgox
@@ -16,23 +16,23 @@ class Mtgox_Bitcoin_PaymentController extends Mage_Core_Controller_Front_Action
      */
     public function redirectAction()
     {
-        $bitcoin      = Mage::getModel('bitcoin/bitcoin');
-        $responseData = $bitcoin->getBitcoinCheckoutFormFields();
+        $model        = Mage::getModel('mtgoxbitcoin/bitcoin');
+        $responseData = $model->getBitcoinCheckoutFormFields();
 
         $form = new Varien_Data_Form();
-        $form->setAction( $responseData['return']['payment_url'] )
+        $form->setAction($responseData['return']['payment_url'])
             ->setId('mtgox_bitcoin_checkout')
             ->setName('mtgox_bitcoin_checkout')
             ->setMethod('POST')
             ->setUseContainer(TRUE);
 
         $html = '<html><body>';
-        $html.= $this->__('You will be redirected to the MtGox Payment Platform in a few seconds.');
+        $html.= $this->__('You will be redirected to the MtGox Payment Platform within 5 seconds.');
         $html.= $form->toHtml();
-        $html.= '<script type="text/javascript">document.getElementById("mtgox_bitcoin_checkout").submit();</script>';
+        $html.= '<script type="text/javascript">setTimeout(function() { document.getElementById("mtgox_bitcoin_checkout").submit(); }, 4000);</script>';
         $html.= '</body></html>';
 
-        echo $html;
+        $this->getResponse()->setBody($html);
     }
 
     /**
@@ -40,33 +40,36 @@ class Mtgox_Bitcoin_PaymentController extends Mage_Core_Controller_Front_Action
      */
     public function notifyAction()
     {
-        $bitcoinKey    = Mage::getStoreConfig('payment/bitcoin/bitcoin_key');
-        $bitcoinSecret = Mage::getStoreConfig('payment/bitcoin/bitcoin_secret');
+        $bitcoinKey    = Mage::getStoreConfig('payment/mtgox/bitcoin_key');
+        $bitcoinSecret = Mage::getStoreConfig('payment/mtgox/bitcoin_secret');
         $rawPostData   = file_get_contents("php://input");
 
-        $good_sign = hash_hmac(
+        $goodSign = hash_hmac(
             'sha512', $rawPostData, base64_decode($bitcoinSecret), TRUE
         );
 
         $sign = base64_decode($_SERVER['HTTP_REST_SIGN']);
-        if ($sign == $good_sign) {
-            $orderNumber = trim(stripslashes($_POST['data']));
-            $order = Mage::getModel('sales/order')->loadByIncrementId($orderNumber);
-            switch ($_POST['status']) {
+        if ($sign == $goodSign) {
+            $status      = Mage::app()->getRequest()->getParam('status');
+            $orderNumber = trim(stripslashes(Mage::app()->getRequest()->getParam('data')));
+            $order       = Mage::getModel('sales/order')->loadByIncrementId($orderNumber);
+            $paymentId   = Mage::app()->getRequest()->getParam('payment_id');
+
+            switch ($status) {
                 case 'paid':
                     $order->getPayment()->
                         registerCaptureNotification($order->getBaseGrandTotal());
-                    $order->getPayment()->setTransactionId($_POST['payment_id']);
+                    $order->getPayment()->setTransactionId($paymentId);
                     $order->save();
                     break;
                 case 'partial':
                     $order->getPayment()->
                         registerCaptureNotification($_POST['amount_valid']);
-                    $order->getPayment()->setTransactionId($_POST['payment_id']);
+                    $order->getPayment()->setTransactionId($paymentId);
                     $order->save();
                     break;
                 case 'cancelled':
-                    $order->registerCancellation('Payment canceled', TRUE)->save();
+                    $order->registerCancellation('Payment cancelled', TRUE)->save();
                     break;
                 default:
                     $order->registerCancellation('Payment failed', TRUE)->save();
@@ -82,7 +85,7 @@ class Mtgox_Bitcoin_PaymentController extends Mage_Core_Controller_Front_Action
      */
     public function failAction()
     {
-        $orderNumber = trim(stripslashes($_GET['id']));
+        $orderNumber = trim(stripslashes(Mage::app()->getRequest()->getParam('id')));
         $orderNumber = str_replace('/', '', $orderNumber);
 
         $session = Mage::getSingleton('core/session', array(

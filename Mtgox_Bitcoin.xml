@@ -1,5 +1,5 @@
 <_>
-   <form_key>xfsYASMaJ5T4fYUY</form_key>
+   <form_key>HkwsfxPgNw9eNRAh</form_key>
    <name>Mtgox_Bitcoin</name>
    <channel>community</channel>
    <version_ids>
@@ -7,9 +7,9 @@
    </version_ids>
    <summary>Extension Summary</summary>
    <description>Extension Description</description>
-   <license>LGPL</license>
-   <license_uri>http://www.gnu.org/licenses/lgpl.html</license_uri>
-   <version>1.0.1</version>
+   <license>BSDL</license>
+   <license_uri>http://www.linfo.org/bsdlicense.html</license_uri>
+   <version>1.0.5</version>
    <stability>stable</stability>
    <notes>Release note</notes>
    <authors>
@@ -32,23 +32,18 @@
       <package>
          <name>
             <name/>
-            <name>Mage_Core_Modules</name>
          </name>
          <channel>
             <channel/>
-            <channel>community</channel>
          </channel>
          <min>
             <min/>
-            <min>1.5.0.0</min>
          </min>
          <max>
             <max/>
-            <max>1.8.0.0</max>
          </max>
          <files>
-            <files>               </files>
-            <files>               </files>
+            <files>                    </files>
          </files>
       </package>
       <extension>
@@ -69,20 +64,24 @@
          <target>magedesign</target>
          <target>mageetc</target>
          <target>magecommunity</target>
+         <target>magedesign</target>
       </target>
       <path>
          <path>frontend/base/default/layout/bitcoin.xml</path>
          <path>frontend/base/default/template/mtgox</path>
          <path>modules/Mtgox_Bitcoin.xml</path>
          <path>Mtgox/Bitcoin</path>
+         <path>frontend/base/default/layout/mtgoxbitcoin.xml</path>
       </path>
       <type>
          <type>file</type>
          <type>dir</type>
          <type>file</type>
          <type>dir</type>
+         <type>file</type>
       </type>
       <include>
+         <include/>
          <include/>
          <include/>
          <include/>
@@ -93,10 +92,7 @@
          <ignore/>
          <ignore/>
          <ignore/>
+         <ignore/>
       </ignore>
    </contents>
-   <page>1</page>
-   <limit>200</limit>
-   <folder/>
-   <package/>
 </_>
