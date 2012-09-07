@@ -4,7 +4,7 @@
  * Bitcoin module configuration
  *
  * @author Michał Adamiak <madamiak@tenwa.pl>
- * @version 1.0.4
+ * @version 1.0.5
  * @access private
  * @copyright Tenwa
  * @package Mtgox
@@ -14,7 +14,7 @@
 <config>
     <modules>
         <Mtgox_Bitcoin>
-            <version>1.0.4</version>
+            <version>1.0.5</version>
         </Mtgox_Bitcoin>
     </modules>
     <global>
