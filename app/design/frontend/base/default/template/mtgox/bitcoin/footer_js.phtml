@@ -1,0 +1,52 @@
+<style type="text/css">
+/* default style, should be moved to your main stylesheet */
+.price-btc {
+    margin-left: 5px;
+}
+</style>
+
+<script type="text/javascript">
+(function() {
+    var btcRate   = '<?php echo $this->helper('mtgoxbitcoin')->getCurrencyRate(); ?>',
+        btcSymbol = '฿';
+
+    if (btcRate === '' || isNaN(btcRate)) {
+        btcRate = false;
+    } else {
+        btcRate = parseFloat(btcRate);
+    }
+
+    /* Converts the price to a computable float value
+     * Example: $14,99 => 14.99
+     */
+    var getPriceFromFormatted = function(price) {
+        price = price.replace(',', '');
+        price = price.replace(/[^0-9.]/g, '');
+        return price;
+    };
+
+    /* Converts the given currency price to bitcoins, prepended by the BTC symbol
+     */
+    var convertPriceToBtc = function(price) {
+        price = price / btcRate;
+        price = btcSymbol + price.toFixed(2);
+        return price;
+    };
+
+    document.observe('dom:loaded', function() {
+        if (!btcRate) {
+            return;
+        }
+
+        // update each price span
+        $$('span.price').each(function(node) {
+            var price = getPriceFromFormatted(node.innerHTML),
+                priceBtc = convertPriceToBtc(price);
+
+            node.insert({
+                after: '<span class="price price-btc">' + priceBtc + '</span>'
+            });
+        });
+    });
+})();
+</script>

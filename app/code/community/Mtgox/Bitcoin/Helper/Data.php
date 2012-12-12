@@ -3,20 +3,27 @@
  * Bitcoin helper
  *
  * @author Jonathan Gautheron <jgautheron@tenwa.pl>
- * @version 1.0.4
- * @access private
- * @copyright Mtgox
  * @package Mtgox
  * @module Bitcoin
  */
 class Mtgox_Bitcoin_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    const LOG_FILENAME = 'mtgox.log';
+
+    const CACHE_DURATION = 60;
 
     const API_ORDER_CREATE = '1/generic/private/merchant/order/create',
-          API_INFO         = '1/generic/private/info';
+          API_INFO         = '1/generic/private/info',
+          API_TICKER       = '1/BTC%s/ticker';
+
+    protected $_supportedCurrencies = array(
+        'EUR', 'PLN', 'JPY', 'USD', 'AUD', 'CAD', 'GBP', 'CHF',
+        'RUB', 'SEK', 'DKK', 'HKD', 'CNY', 'SGD', 'THB', 'NZD',
+        'NOK',
+    );
 
     /**
-     * Ensures that the connection is valid with the given API key + secret
+     * Ensure that the connection is valid with the given API key + secret
      *
      * @param string $key    mtgox key
      * @param string $secret mtgox secret key
@@ -37,12 +44,12 @@ class Mtgox_Bitcoin_Helper_Data extends Mage_Core_Helper_Abstract
      * @param string $path   mtgox api path
      * @param string $key    mtgox key
      * @param string $secret mtgox secret key
-     * @param array  $req    date to be sent
+     * @param array  $req    data to be sent
+     * @see https://en.bitcoin.it/wiki/MtGox/API/HTTP/v1
      *
      * @return array
-     * @throws Exception
      */
-    public function mtgoxQuery($path, $key, $secret, array $req = array())
+    protected function mtgoxQuery($path, $key, $secret, array $req = array())
     {
         $mt = explode(' ', microtime());
         $req['nonce'] = $mt[1] . substr($mt[0], 2, 6);
@@ -66,18 +73,81 @@ class Mtgox_Bitcoin_Helper_Data extends Mage_Core_Helper_Abstract
         curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+
         $res = curl_exec($ch);
         if ($res === FALSE) {
             $msg = 'Could not get reply: ' . curl_error($ch);
-            Mage::log($msg, Zend_Log::ERR);
+            Mage::log($msg, Zend_Log::ERR, self::LOG_FILENAME);
             Mage::getSingleton('core/session')->addError($msg);
+            return false;
         }
+
         $dec = json_decode($res, TRUE);
         if (!$dec) {
             $msg = 'Invalid data received, please make sure connection is working and requested API exists';
-            Mage::log($msg, Zend_Log::ERR);
+            Mage::log($msg, Zend_Log::ERR, self::LOG_FILENAME);
             Mage::getSingleton('core/session')->addError($msg);
+            return false;
         }
+
         return $dec;
+    }
+
+    public function sendQuery($path, array $req = array())
+    {
+        $_bitcoinKey    = Mage::getStoreConfig('payment/mtgox/bitcoin_key');
+        $_bitcoinSecret = Mage::getStoreConfig('payment/mtgox/bitcoin_secret');
+
+        return $this->mtgoxQuery($path, $_bitcoinKey, $_bitcoinSecret, $req);
+    }
+
+    /**
+     * Check if the currency is supported by MtGox
+     *
+     * @param string $currency currency code (EUR, USD...)
+     *
+     * @return boolean
+     */
+    protected function isSupportedCurrency($currency)
+    {
+        return in_array($currency, $this->_supportedCurrencies);
+    }
+
+    /**
+     * Get the BTC rate for the current currency
+     *
+     * @return float
+     */
+    public function getCurrencyRate()
+    {
+        $currencyCode = Mage::app()->getStore()->getCurrentCurrencyCode();
+        if (!$this->isSupportedCurrency($currencyCode)) {
+            // fail silently, log the error
+            Mage::log(
+                'Currency not supported: ' . $currencyCode . '(supported currencies: ' . implode(',', $this->_supportedCurrencies). ')',
+                Zend_Log::ERR, self::LOG_FILENAME);
+            return false;
+        }
+
+        $cacheTag     = 'BTC_rate_' . $currencyCode;
+        $currencyRate = Mage::app()->loadCache($cacheTag);
+        if (!$currencyRate) {
+            $response = $this->sendQuery(sprintf(self::API_TICKER, $currencyCode));
+
+            // something's wrong
+            if (!$response OR !isset($response['result'])) {
+                return false;
+            }
+
+            if ($response['result'] !== 'success') {
+                Mage::log('Could not retrieve the currency rate', Zend_Log::ERR, self::LOG_FILENAME);
+                return false;
+            }
+
+            $currencyRate = $response['return']['avg']['value'];
+            Mage::app()->saveCache($currencyRate, $cacheTag, array($cacheTag), self::CACHE_DURATION);
+        }
+
+        return $currencyRate;
     }
 }

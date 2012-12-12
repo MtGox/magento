@@ -102,7 +102,7 @@ class Mtgox_Bitcoin_Model_Bitcoin extends Mage_Payment_Model_Method_Abstract
             $requestData['instant_only'] = 1;
         }
 
-        $responseData = Mage::helper('mtgoxbitcoin')->mtgoxQuery(Mtgox_Bitcoin_Helper_Data::API_ORDER_CREATE, $bitcoinKey, $bitcoinSecret, $requestData);
+        $responseData = Mage::helper('mtgoxbitcoin')->sendQuery(Mtgox_Bitcoin_Helper_Data::API_ORDER_CREATE, $requestData);
 
         return $responseData;
     }
