@@ -3,10 +3,6 @@
 /**
  * Bitcoin module configuration
  *
- * @author Michał Adamiak <madamiak@tenwa.pl>
- * @version 1.0.5
- * @access private
- * @copyright Tenwa
  * @package Mtgox
  * @module Bitcoin
  */
@@ -14,7 +10,7 @@
 <config>
     <modules>
         <Mtgox_Bitcoin>
-            <version>1.0.5</version>
+            <version>1.1</version>
         </Mtgox_Bitcoin>
     </modules>
     <global>
@@ -63,6 +59,7 @@
             </mtgoxbitcoin_read>
         </resources>
     </global>
+
     <frontend>
         <routers>
             <mtgoxbitcoin>
@@ -81,6 +78,29 @@
             </updates>
         </layout>
     </frontend>
+
+    <adminhtml>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <mtgox_bitcoin>
+                                            <title>MtGox Bitcoin</title>
+                                        </mtgox_bitcoin>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+
     <default>
         <payment>
             <mtgox>
