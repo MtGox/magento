@@ -1,3 +1,5 @@
+<?php $currencyCode = Mage::app()->getStore()->getCurrentCurrencyCode(); ?>
+<?php if ($currencyCode !== 'BTC'): ?>
 <style type="text/css">
 /* default style, should be moved to your main stylesheet */
 .price-btc {
@@ -50,3 +52,4 @@
     });
 })();
 </script>
+<?php endif; ?>

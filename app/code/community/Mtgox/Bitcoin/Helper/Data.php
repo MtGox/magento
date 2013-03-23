@@ -53,13 +53,17 @@ class Mtgox_Bitcoin_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $mt = explode(' ', microtime());
         $req['nonce'] = $mt[1] . substr($mt[0], 2, 6);
-        $postData = http_build_query($req, '', '&');
-        $headers = array(
-            'Rest-Key: ' . $key,
-            'Rest-Sign: ' . base64_encode(
-                hash_hmac('sha512', $postData, base64_decode($secret), TRUE)
-             ),
-        );
+
+        if ($key && $secret) {
+            $postData = http_build_query($req, '', '&');
+            $headers = array(
+                'Rest-Key: ' . $key,
+                'Rest-Sign: ' . base64_encode(
+                    hash_hmac('sha512', $postData, base64_decode($secret), TRUE)
+                 ),
+            );
+        }
+
         static $ch = NULL;
         if (is_null($ch)) {
             $ch = curl_init();
@@ -69,9 +73,13 @@ class Mtgox_Bitcoin_Helper_Data extends Mage_Core_Helper_Abstract
                 'Mozilla/4.0 (compatible; MtGox PHP client; ' . php_uname('s') . '; PHP/' . phpversion() . ')'
             );
         }
-        curl_setopt($ch, CURLOPT_URL, 'https://mtgox.com/api/' . $path);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_URL, 'https://data.mtgox.com/api/' . $path);
+
+        if ($key && $secret) {
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        }
+
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
 
         $res = curl_exec($ch);
@@ -93,10 +101,15 @@ class Mtgox_Bitcoin_Helper_Data extends Mage_Core_Helper_Abstract
         return $dec;
     }
 
-    public function sendQuery($path, array $req = array())
+    public function sendQuery($path, array $req = array(), $auth = true)
     {
-        $_bitcoinKey    = Mage::getStoreConfig('payment/mtgox/bitcoin_key');
-        $_bitcoinSecret = Mage::getStoreConfig('payment/mtgox/bitcoin_secret');
+        $_bitcoinKey    = null;
+        $_bitcoinSecret = null;
+
+        if ($auth) {
+            $_bitcoinKey    = Mage::getStoreConfig('payment/mtgox/bitcoin_key');
+            $_bitcoinSecret = Mage::getStoreConfig('payment/mtgox/bitcoin_secret');
+        }
 
         return $this->mtgoxQuery($path, $_bitcoinKey, $_bitcoinSecret, $req);
     }
@@ -121,6 +134,12 @@ class Mtgox_Bitcoin_Helper_Data extends Mage_Core_Helper_Abstract
     public function getCurrencyRate()
     {
         $currencyCode = Mage::app()->getStore()->getCurrentCurrencyCode();
+
+        // do not convert bitcoins obviously
+        if ($currencyCode === 'BTC') {
+            return false;
+        }
+
         if (!$this->isSupportedCurrency($currencyCode)) {
             // fail silently, log the error
             Mage::log(
@@ -132,7 +151,7 @@ class Mtgox_Bitcoin_Helper_Data extends Mage_Core_Helper_Abstract
         $cacheTag     = 'BTC_rate_' . $currencyCode;
         $currencyRate = Mage::app()->loadCache($cacheTag);
         if (!$currencyRate) {
-            $response = $this->sendQuery(sprintf(self::API_TICKER, $currencyCode));
+            $response = $this->sendQuery(sprintf(self::API_TICKER, $currencyCode), array(), false);
 
             // something's wrong
             if (!$response OR !isset($response['result'])) {
