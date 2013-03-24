@@ -40,7 +40,6 @@ class Mtgox_Bitcoin_PaymentController extends Mage_Core_Controller_Front_Action
      */
     public function notifyAction()
     {
-        $bitcoinKey    = Mage::getStoreConfig('payment/mtgox/bitcoin_key');
         $bitcoinSecret = Mage::getStoreConfig('payment/mtgox/bitcoin_secret');
         $rawPostData   = file_get_contents("php://input");
 
@@ -64,7 +63,7 @@ class Mtgox_Bitcoin_PaymentController extends Mage_Core_Controller_Front_Action
                     break;
                 case 'partial':
                     $order->getPayment()->
-                        registerCaptureNotification($_POST['amount_valid']);
+                        registerCaptureNotification(Mage::app()->getRequest()->getParam('amount_valid'));
                     $order->getPayment()->setTransactionId($paymentId);
                     $order->save();
                     break;

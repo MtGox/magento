@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 /**
- * Bitcoin template setup for failure page
+ * MtGox Bitcoin layout setup
  *
- * @author Michał Adamiak <madamiak@tenwa.pl>
- * @version 1.0.5
- * @access private
- * @copyright Tenwa
  * @package Mtgox
  * @module Bitcoin
  */
 -->
 <layout version="0.1.0">
+    <default>
+        <reference name="footer">
+            <block type="core/template" name="mtgoxbitcoin_footer_js">
+                <action method="setTemplate" ifconfig="mtgox_bitcoin/general/show_bitcoin_price">
+                    <template>mtgox/bitcoin/footer_js.phtml</template>
+                </action>
+            </block>
+        </reference>
+    </default>
+
     <mtgoxbitcoin_payment_fail>
         <reference name="root">
             <action method="setTemplate">
@@ -19,7 +25,7 @@
             </action>
         </reference>
         <reference name="content">
-            <block type="core/template" name="mtgoxbitcoin_payment_fail" template="mtgox/bitcoin/template.phtml"></block>
+            <block type="core/template" name="mtgoxbitcoin_payment_fail" template="mtgox/bitcoin/template.phtml" />
         </reference>
     </mtgoxbitcoin_payment_fail>
 </layout>
