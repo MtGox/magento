@@ -2,9 +2,6 @@
 /**
  * Bitcoin model
  *
- * @author Jonathan Gautheron <jgautheron@tenwa.pl>
- * @version 1.0.5
- * @access private
  * @copyright Mtgox
  * @package Mtgox
  * @module Bitcoin
