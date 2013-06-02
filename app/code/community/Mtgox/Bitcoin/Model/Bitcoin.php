@@ -58,8 +58,6 @@ class Mtgox_Bitcoin_Model_Bitcoin extends Mage_Payment_Model_Method_Abstract
      */
     public function getBitcoinCheckoutFormFields()
     {
-        $bitcoinKey    = Mage::getStoreConfig('payment/mtgox/key');
-        $bitcoinSecret = Mage::getStoreConfig('payment/mtgox/secret');
         $description   = Mage::getStoreConfig('payment/mtgox/description');
 
         $checkout         = Mage::getSingleton('checkout/session');
