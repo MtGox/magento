@@ -107,8 +107,12 @@ class Mtgox_Bitcoin_Helper_Data extends Mage_Core_Helper_Abstract
         $_bitcoinSecret = null;
 
         if ($auth) {
-            $_bitcoinKey    = Mage::getStoreConfig('payment/mtgox/bitcoin_key');
-            $_bitcoinSecret = Mage::getStoreConfig('payment/mtgox/bitcoin_secret');
+            $_bitcoinKey    = Mage::getStoreConfig('payment/mtgox/key');
+            $_bitcoinSecret = Mage::getStoreConfig('payment/mtgox/secret');
+
+            if (!Mage::helper('mtgoxbitcoin')->isValidConnection($_bitcoinKey, $_bitcoinSecret)) {
+                Mage::throwException($this->__('Please configure the MtGox key & secret.'));
+            }
         }
 
         return $this->mtgoxQuery($path, $_bitcoinKey, $_bitcoinSecret, $req);
