@@ -19,18 +19,25 @@ class Mtgox_Bitcoin_PaymentController extends Mage_Core_Controller_Front_Action
         $model        = Mage::getModel('mtgoxbitcoin/bitcoin');
         $responseData = $model->getBitcoinCheckoutFormFields();
 
-        $form = new Varien_Data_Form();
-        $form->setAction($responseData['return']['payment_url'])
-            ->setId('mtgox_bitcoin_checkout')
-            ->setName('mtgox_bitcoin_checkout')
-            ->setMethod('POST')
-            ->setUseContainer(TRUE);
+        if (isset($responseData['result']) && $responseData['result'] == 'success') {
+            $form = new Varien_Data_Form();
+            $form->setAction($responseData['return']['payment_url'])
+                ->setId('mtgox_bitcoin_checkout')
+                ->setName('mtgox_bitcoin_checkout')
+                ->setMethod('POST')
+                ->setUseContainer(TRUE);
 
-        $html = '<html><body>';
-        $html.= $this->__('You will be redirected to the MtGox Payment Platform within 5 seconds.');
-        $html.= $form->toHtml();
-        $html.= '<script type="text/javascript">setTimeout(function() { document.getElementById("mtgox_bitcoin_checkout").submit(); }, 4000);</script>';
-        $html.= '</body></html>';
+            $html = '<html><body>';
+            $html.= $this->__('You will be redirected to the MtGox Payment Platform within 5 seconds.');
+            $html.= $form->toHtml();
+            $html.= '<script type="text/javascript">setTimeout(function() { document.getElementById("mtgox_bitcoin_checkout").submit(); }, 4000);</script>';
+            $html.= '</body></html>';
+        } else {
+            Mage::log('[MtGoxPayment] '.$responseData['token'].' - '.$responseData['error'], 1);
+            $html = '<html><body>';
+            $html .= $this->__('There was an error during the payment. Please try again.');
+            $html .= '</body></html>';
+        }
 
         $this->getResponse()->setBody($html);
     }
