@@ -1,32 +1,35 @@
 <_>
-   <form_key>HkwsfxPgNw9eNRAh</form_key>
+   <form_key>Ep7TlguJHxhVjbAs</form_key>
    <name>Mtgox_Bitcoin</name>
    <channel>community</channel>
    <version_ids>
       <version_ids>2</version_ids>
    </version_ids>
-   <summary>Extension Summary</summary>
-   <description>Extension Description</description>
+   <summary>Mt.Gox Payment Extension allow any merchant to add the support of Bitcoin on their Magento setup.</summary>
+   <description>Based on Mt.Gox Merchant API, the Mt.Gox Payment Extension offers the same features and advantages including instant checkout for Mt.Gox users account holders and mobile payment on supported mobile applications via QR codes.
+
+Mt.Gox Magento plug-in also supports a basic Autosale function allowing merchants to automatically sell their Bitcoins into other currencies at market price as well as being instantly informed by email each time a transaction has been cleared. 
+
+Like another other payment solution methods proposed by Mt.Gox, this plug-in also support instant payment for Mt.Gox account holders. </description>
    <license>BSDL</license>
-   <license_uri>http://www.linfo.org/bsdlicense.html</license_uri>
-   <version>1.0.5</version>
+   <license_uri>http://opensource.org/licenses/bsd-license.php</license_uri>
+   <version>1.2.1</version>
    <stability>stable</stability>
-   <notes>Release note</notes>
+   <notes>- Fixes API changes
+- Fixes the redirection loop
+- Performance changes</notes>
    <authors>
       <name>
-         <name>Tenwa</name>
-         <name>MtGox</name>
+         <name>Tibanne</name>
       </name>
       <user>
-         <user>jgautheron</user>
          <user>mtgox</user>
       </user>
       <email>
-         <email>magento@tenwa.pl</email>
          <email>mark@tibanne.com</email>
       </email>
    </authors>
-   <depends_php_min>5.2.0</depends_php_min>
+   <depends_php_min>5.1.0</depends_php_min>
    <depends_php_max>6.0.0</depends_php_max>
    <depends>
       <package>
@@ -43,7 +46,7 @@
             <max/>
          </max>
          <files>
-            <files>                    </files>
+            <files>  </files>
          </files>
       </package>
       <extension>
@@ -60,27 +63,75 @@
    </depends>
    <contents>
       <target>
-         <target>magedesign</target>
-         <target>magedesign</target>
-         <target>mageetc</target>
+         <target>magelocal</target>
          <target>magecommunity</target>
+         <target>mageetc</target>
          <target>magedesign</target>
+         <target>magedesign</target>
+         <target>magelib</target>
+         <target>magelib</target>
+         <target>magelib</target>
+         <target>magelib</target>
+         <target>magelib</target>
+         <target>magelib</target>
+         <target>magelib</target>
+         <target>magelib</target>
+         <target>magelib</target>
+         <target>magelib</target>
+         <target>magelib</target>
+         <target>magelib</target>
       </target>
       <path>
-         <path>frontend/base/default/layout/bitcoin.xml</path>
-         <path>frontend/base/default/template/mtgox</path>
-         <path>modules/Mtgox_Bitcoin.xml</path>
+         <path/>
          <path>Mtgox/Bitcoin</path>
+         <path>modules/Mtgox_Bitcoin.xml</path>
          <path>frontend/base/default/layout/mtgoxbitcoin.xml</path>
+         <path>frontend/base/default/template/mtgox/bitcoin</path>
+         <path>Zend/Locale/Data/ca.xml</path>
+         <path>Zend/Locale/Data/da.xml</path>
+         <path>Zend/Locale/Data/de.xml</path>
+         <path>Zend/Locale/Data/en.xml</path>
+         <path>Zend/Locale/Data/es.xml</path>
+         <path>Zend/Locale/Data/fr.xml</path>
+         <path>Zend/Locale/Data/hu.xml</path>
+         <path>Zend/Locale/Data/ja.xml</path>
+         <path>Zend/Locale/Data/nl.xml</path>
+         <path>Zend/Locale/Data/pl.xml</path>
+         <path>Zend/Locale/Data/pt.xml</path>
+         <path>Zend/Locale/Data/ru.xml</path>
       </path>
       <type>
          <type>file</type>
          <type>dir</type>
          <type>file</type>
+         <type>file</type>
          <type>dir</type>
+         <type>file</type>
+         <type>file</type>
+         <type>file</type>
+         <type>file</type>
+         <type>file</type>
+         <type>file</type>
+         <type>file</type>
+         <type>file</type>
+         <type>file</type>
+         <type>file</type>
+         <type>file</type>
          <type>file</type>
       </type>
       <include>
+         <include/>
+         <include/>
+         <include/>
+         <include/>
+         <include/>
+         <include/>
+         <include/>
+         <include/>
+         <include/>
+         <include/>
+         <include/>
+         <include/>
          <include/>
          <include/>
          <include/>
@@ -93,6 +144,22 @@
          <ignore/>
          <ignore/>
          <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
       </ignore>
    </contents>
+   <page>1</page>
+   <limit>200</limit>
+   <folder/>
+   <package/>
 </_>

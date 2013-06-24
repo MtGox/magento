@@ -1,18 +1,24 @@
 <?xml version="1.0"?>
 <package>
     <name>Mtgox_Bitcoin</name>
-    <version>1.0.5</version>
+    <version>1.2.1</version>
     <stability>stable</stability>
-    <license uri="http://www.linfo.org/bsdlicense.html">BSDL</license>
+    <license uri="http://opensource.org/licenses/bsd-license.php">BSDL</license>
     <channel>community</channel>
     <extends/>
-    <summary>Extension Summary</summary>
-    <description>Extension Description</description>
-    <notes>Release note</notes>
-    <authors><author><name>Tenwa</name><user>jgautheron</user><email>magento@tenwa.pl</email></author><author><name>MtGox</name><user>mtgox</user><email>mark@tibanne.com</email></author></authors>
-    <date>2012-09-07</date>
-    <time>16:29:16</time>
-    <contents><target name="magedesign"><dir name="frontend"><dir name="base"><dir name="default"><dir name="template"><dir name="mtgox"><dir name="bitcoin"><file name="template.phtml" hash="d19c39eea169d4d522683faf7852df1a"/></dir></dir></dir><dir name="layout"><file name="mtgoxbitcoin.xml" hash="cbccb23f7be1ae3cc3b5e46082d14026"/></dir></dir></dir></dir></target><target name="mageetc"><dir name="modules"><file name="Mtgox_Bitcoin.xml" hash="b1748b2949e23bafaa19808f0011daa8"/></dir></target><target name="magecommunity"><dir name="Mtgox"><dir name="Bitcoin"><dir name="Helper"><file name="Data.php" hash="880093948bfd08c7f04a54553b3a9f02"/></dir><dir name="Model"><file name="Bitcoin.php" hash="dc2f07c504e85e678ed0888305ace652"/><file name="Key.php" hash="b2f08247a920a960f31b1af97491e65f"/><file name="Secret.php" hash="c220133cf347ccd8a8d6473a9293e7bc"/></dir><dir name="controllers"><file name="PaymentController.php" hash="aafed59886728ad10aa447cb2cf1d78f"/></dir><dir name="etc"><file name="config.xml" hash="7645386947e80e1e75bc69feb440b600"/><file name="system.xml" hash="9e8d3242ebbd8119f5d27f16db1ae8d5"/></dir></dir></dir></target></contents>
+    <summary>Mt.Gox Payment Extension allow any merchant to add the support of Bitcoin on their Magento setup.</summary>
+    <description>Based on Mt.Gox Merchant API, the Mt.Gox Payment Extension offers the same features and advantages including instant checkout for Mt.Gox users account holders and mobile payment on supported mobile applications via QR codes.&#xD;
+&#xD;
+Mt.Gox Magento plug-in also supports a basic Autosale function allowing merchants to automatically sell their Bitcoins into other currencies at market price as well as being instantly informed by email each time a transaction has been cleared. &#xD;
+&#xD;
+Like another other payment solution methods proposed by Mt.Gox, this plug-in also support instant payment for Mt.Gox account holders. </description>
+    <notes>- Fixes API changes&#xD;
+- Fixes the redirection loop&#xD;
+- Performance changes</notes>
+    <authors><author><name>Tibanne</name><user>mtgox</user><email>mark@tibanne.com</email></author></authors>
+    <date>2013-06-24</date>
+    <time>23:14:27</time>
+    <contents><target name="magecommunity"><dir name="Mtgox"><dir name="Bitcoin"><dir name="Helper"><file name="Data.php" hash="1efcfb4617da44aed3720b72d60fa0ea"/></dir><dir name="Model"><file name="Bitcoin.php" hash="8b41274645051c938a68d27eb0e9c916"/><file name="Key.php" hash="cc89751a301a1a7f5749ba39e82b9a6f"/><file name="Secret.php" hash="17b9bb73247fd4e108235d77fb765f23"/></dir><dir name="controllers"><file name="PaymentController.php" hash="81a4a6f921a8f7993b911445d1ca2b3d"/></dir><dir name="etc"><file name="config.xml" hash="0fb7cc44ccbc92e0069be9f7983efe4e"/><file name="system.xml" hash="728ffbca44757d341988c9826bfe0e0c"/></dir></dir></dir></target><target name="mageetc"><dir name="modules"><file name="Mtgox_Bitcoin.xml" hash="1eef0c651a817ad28130f7065983f797"/></dir></target><target name="magedesign"><dir name="frontend"><dir name="base"><dir name="default"><dir name="layout"><file name="mtgoxbitcoin.xml" hash="342b4842a4b21dad3e27a7531b735363"/></dir><dir name="template"><dir name="mtgox"><dir name="bitcoin"><file name="footer_js.phtml" hash="481967e73ab4cde384408178668623dc"/><file name="template.phtml" hash="d19c39eea169d4d522683faf7852df1a"/></dir></dir></dir></dir></dir></dir></target><target name="magelib"><dir name="Zend"><dir name="Locale"><dir name="Data"><file name="ca.xml" hash="6da110f45d57c5ab1cb33102c37c9b51"/><file name="da.xml" hash="3f55e6d630ccbaff8380787cc379e983"/><file name="de.xml" hash="09adaf6f8b7a21961000baab7d0c7aec"/><file name="en.xml" hash="2f6fa32901d015c61a027efdd44a15d7"/><file name="es.xml" hash="ba1b730afb93cd65c8ce0803d4043ecd"/><file name="fr.xml" hash="3a6cee3c715186b3f84d809366314983"/><file name="hu.xml" hash="80f74b69a1c67af4b96591e091231d72"/><file name="ja.xml" hash="2a1802bdbd9f6d56aaa87b810a69bfe6"/><file name="nl.xml" hash="32805cda6a6821665abb2f6be1447862"/><file name="pl.xml" hash="d39a6e123e73b82d23004ffb8f2901ba"/><file name="pt.xml" hash="11d9b9ced750b2e5205914de1eecfb50"/><file name="ru.xml" hash="cf437c1b6f6687c36ef744366e756a14"/></dir></dir></dir></target></contents>
     <compatible/>
-    <dependencies><required><php><min>5.2.0</min><max>6.0.0</max></php></required></dependencies>
+    <dependencies><required><php><min>5.1.0</min><max>6.0.0</max></php></required></dependencies>
 </package>
